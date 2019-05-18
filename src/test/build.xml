@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="main" basedir="../..">
+
+
+<!--property setting-->
+<property name="name" value="ex"/>
+<property name="version" value="1.0"/>
+<property name="src.dir" value="src"/>
+<property name="build.dir" value="build"/>
+<property name="classes.dir" value="bin/makeandsell"/>
+<property name="jar.file" value="${build.dir}/${name}.jar"/>
+<property name="dist.dir" value="dist"/>
+<property name="dist.file" value="${dist.dir}/${name}-${version}"/>
+
+<!--compile target-->
+<target name="compile">
+ <mkdir dir="${build.dir}"/>
+ <mkdir dir="${classes.dir}"/>
+ <javac
+  srcdir="${src.dir}"
+  destdir="${classes.dir}" includeantruntime="false" >
+ </javac>
+</target>
+
+<!--jars target-->
+<target name="jars" depends="compile">
+ <jar
+  jarfile="${jar.file}"
+  basedir="${classes.dir}">
+ </jar>
+</target>	
+
+<!--distribution target-->
+<target name="dist" depends="jars">
+ <mkdir dir="${dist.dir}"/>
+ <zip
+  destfile="${dist.file}.zip"
+  basedir="${build.dir}"
+  includes="*.jar"
+ />
+</target>
+
+<!--main target-->
+<target name="main" depends="jars"/>
+
+<!--clean target-->
+<target name="clean">
+ <delete dir="${build.dir}"/>
+ <delete dir="${dist.dir}"/>
+</target>
+
+<!--all target-->
+<target name="run" depends="clean, dist"/>
+
+</project>
