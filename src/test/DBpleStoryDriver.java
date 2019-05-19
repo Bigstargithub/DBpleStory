@@ -11,6 +11,8 @@ public class DBpleStoryDriver {
 //   public static User user;
    public static Connection conn;
    static Scanner s = new Scanner(System.in);
+   static int num;
+   static String id;
    
    public static void main(String[] args) throws SQLException
    {
@@ -18,6 +20,7 @@ public class DBpleStoryDriver {
       conn = useDB.connectDB();
 //      user = new User();
       boolean isAdmin = false; //사용자인지 아닌지 구분하는 flag
+     
       
       System.out.println("***Welcome to DBpleStory***");
       
@@ -36,7 +39,7 @@ public class DBpleStoryDriver {
             while(true) {
                System.out.print("Enter your id.\n>");
                Scanner s1 = new Scanner(System.in);
-               String id = s1.nextLine();
+               id = s1.nextLine();
                System.out.print("Enter your password.\n>");
                String pwd = s1.nextLine();
                if(useDB.singIn(id, pwd)) {
@@ -60,7 +63,7 @@ public class DBpleStoryDriver {
             while(true) {
                System.out.print("Enter your id.\n>");
                Scanner s2 = new Scanner(System.in);
-               String id = s2.nextLine();
+               id = s2.nextLine();
                //id 중복여부확인
                if(useDB.checkIDDup(id)) {
                   System.out.println("...Valid ID...");
@@ -172,7 +175,8 @@ public class DBpleStoryDriver {
    }
    
    public static void selectChannel() throws SQLException {
-      int num;
+     
+      
       String channel = useDB.showChannels();
       
       System.out.println("Channels\tpresent_user");
@@ -185,17 +189,32 @@ public class DBpleStoryDriver {
    }
    
    public static void channelCharacter(int channel) throws SQLException {
-      int num;
+      int num1;
+      int select = 0;
       
       System.out.println("1. Character Select");
       System.out.println("2. Channel Select");
 //      System.out.println("3. Quit");
       
-      num = s.nextInt();
+      num1 = s.nextInt();
       
-      switch(num) {
+      switch(num1) {
       case 1:
-         selectCharacter(channel);
+    	 while(true)
+    	 {
+    	 System.out.println("1. Select");
+    	 System.out.println("2. make");
+    	 select = s.nextInt();
+    	 if(select==1)
+    	 {
+    		 selectCharacter(channel);
+    		 break;
+    	 }
+    	 else if(select==2)
+    	 {
+    		 useDB.makecharacter(id, channel);
+    	 }
+    	 }
          break;
       case 2:
          selectChannel();

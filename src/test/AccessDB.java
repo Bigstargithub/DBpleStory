@@ -471,7 +471,49 @@ public class AccessDB {
 		
 	  }
 	 
-	 
+	  public void makecharacter(String id,int channel) throws SQLException
+	  {
+		  String character_name;
+		  while(true)
+		  {
+		  System.out.print("Enter the character name : ");
+		  character_name = s.nextLine();
+		  PreparedStatement psmt = null;
+		  ResultSet rs;
+		  psmt = conn.prepareStatement("Select character_name from characterList where character_name = ?");
+		  psmt.setString(1, character_name);
+		  rs = psmt.executeQuery();
+		  
+		  if(rs.next())
+		  {
+			  System.out.print("already exsited name. Please rewrite.");
+		  }
+		  else
+		  	{
+			  PreparedStatement psmt2 = null;
+			  int rs2;
+			  psmt2 = conn.prepareStatement("insert into characterlist (character_name,user_id,current_channel_index,current_map) values(?,?,?,?)");
+			  psmt2.setString(1, character_name);
+			  psmt2.setString(2, id);
+			  psmt2.setInt(3, channel);
+			  psmt2.setString(4, "HENESIS");
+			  rs2 = psmt2.executeUpdate();
+			  if(rs2>0)
+			  {
+				  System.out.print("Success! \n");
+				  break;
+			  }
+			  else
+			  {
+				  System.out.print("Wait!");
+			  }
+			  
+		  	}
+		  break;
+		  
+		  }
+		  
+	  }
 	   
 
 }
